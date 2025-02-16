@@ -103,8 +103,13 @@ struct Expr *mk_expr3() {
 */
 void free_expr(struct Expr* e) {
     /* TODO: Your code here */
-    free_expr(e->subexprs.e1);
-    free_expr(e->subexprs.e2);
+
+    if(!e) return;
+    if(e->type != FLOAT){
+        free_expr(e->subexprs.e1);
+        free_expr(e->subexprs.e2);
+    }
+    
     free(e);
 }
 
@@ -114,6 +119,9 @@ void free_expr(struct Expr* e) {
 */
 float eval(struct Expr* e) {
     /* TODO: Your code here */
+    if(e==NULL){
+        return 0.0;
+    }
     if(e->type==FLOAT){
         return e->literal;
     }
@@ -129,6 +137,7 @@ float eval(struct Expr* e) {
     else if(e->type==DIV){
         return eval(e->subexprs.e1) / eval(e->subexprs.e2);
     }
+    return 0.0;
 }
 
 
